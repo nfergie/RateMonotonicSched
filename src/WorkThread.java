@@ -24,33 +24,38 @@ public class WorkThread extends Thread {
     @Override
     public void run() {
         try{
-            sem.acquire();
-            int count =0;
-            while(count <times){
-                doWork(matrix);
+            while(true){
+                sem.acquire();
+                System.out.println(this.getName() + "Running");
+                Thread.sleep(100);
+                int count =0;
+                while(count < times){
+                    doWork(matrix);
+                    count++;
+                }
+//
+//                fin.acquire();
+//                switch (type){
+//                    case 1:
+//                        data.isFinish1 = true;
+//                        data.count1++;
+//                        break;
+//                    case 2:
+//                        data.isFinish2 = true;
+//                        data.count2++;
+//                        break;
+//                    case 3:
+//                        data.isFinish3 = true;
+//                        data.count3++;
+//                        break;
+//                    case 4:
+//                        data.isFinish4 = true;
+//                        data.count4++;
+//                        break;
+//                }
+//                fin.release();
             }
-            sem.release();
 
-            fin.acquire();
-            switch (type){
-                case 1:
-                    data.isFinish1 = true;
-                    data.count1++;
-                    break;
-                case 2:
-                    data.isFinish2 = true;
-                    data.count2++;
-                    break;
-                case 3:
-                    data.isFinish3 = true;
-                    data.count3++;
-                    break;
-                case 4:
-                    data.isFinish4 = true;
-                    data.count4++;
-                    break;
-            }
-            fin.release();
 
         } catch (InterruptedException e){
             e.printStackTrace();
