@@ -9,5 +9,5 @@ public class FinishData {
     public static int count3 = 0;
     public static int count4 = 0;
 
-    public static int timerCount = 1;
+    public static int timerCount = -1;
 }

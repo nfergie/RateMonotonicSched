@@ -26,8 +26,6 @@ public class WorkThread extends Thread {
         try{
             while(true){
                 sem.acquire();
-                System.out.println(this.getName() + "Running");
-                Thread.sleep(100);
                 int count =0;
                 while(count < times){
                     doWork(matrix);

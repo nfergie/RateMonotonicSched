@@ -5,7 +5,6 @@ public class Scheduler extends Thread {
     Semaphore timSem;
     Semaphore [] semArray;
     FinishData data;
-    int count = 1;
 
     public Scheduler(Semaphore timSem,Semaphore[] semArray, FinishData data){
         this.semArray = semArray;
@@ -16,37 +15,33 @@ public class Scheduler extends Thread {
     @Override
     public void run() {
         try{
-            while(count < 17){
+            while(true){
                 timSem.acquire();
-                if(count == 1){
-                    System.out.println("Count = " + count);
-                    Thread.sleep(1000);
-                    semArray[0].release();
-                    semArray[1].release();
-                    semArray[2].release();
-                    semArray[3].release();
+                int count = data.timerCount;
+//                System.out.println("count" + data.timerCount);
+                if(count == 160){
+                    System.out.println("T1: " + data.count1);
+                    System.out.println("T2: " + data.count2);
+                    System.out.println("T3: " + data.count3);
+                    System.out.println("T4: " + data.count4);
+                    System.exit(0);
                 }
-                if(count != 1 && count % 1 == 0){
-                    System.out.println("Count = " + count);
-                    Thread.sleep(1000);
+                if(count % 1 == 0){
                     semArray[0].release();
+                    data.count1++;
                 }
                 if(count % 2 == 0){
-                    System.out.println("Count = " + count);
-                    Thread.sleep(1000);
                     semArray[1].release();
+                    data.count2++;
                 }
                 if(count % 4 == 0){
-                    System.out.println("Count = " + count);
-                    Thread.sleep(1000);
                     semArray[2].release();
+                    data.count3++;
                 }
                 if(count % 16 == 0){
-                    System.out.println("Count = " + count);
-                    Thread.sleep(1000);
                     semArray[3].release();
+                    data.count4++;
                 }
-                count++;
             }
         }catch (InterruptedException e){
             e.printStackTrace();

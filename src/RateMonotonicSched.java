@@ -18,11 +18,21 @@ public class RateMonotonicSched {
 
         Semaphore fin = new Semaphore(1);
         Semaphore timSem = new Semaphore(1);
+        try{
+            timSem.acquire();
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        }
 
         WorkThread t1 = new WorkThread(semArray[0], fin, data, 1, 1);
         WorkThread t2 = new WorkThread(semArray[1], fin, data, 2, 2);
         WorkThread t3 = new WorkThread(semArray[2], fin, data, 4, 3);
         WorkThread t4 = new WorkThread(semArray[3], fin, data, 16, 4);
+
+        t1.start();
+        t2.start();
+        t3.start();
+        t4.start();
 
         t1.setPriority(4);
         t2.setPriority(3);
@@ -33,15 +43,12 @@ public class RateMonotonicSched {
         t2.setName("T2");
         t3.setName("T3");
         t4.setName("T4");
-        t1.start();
-        t2.start();
-        t3.start();
-        t4.start();
+
 
         Timer sched = new Timer();
         Scheduler s = new Scheduler(timSem, semArray, data);
         s.start();
-        sched.schedule(new MyTimer(timSem), 0, 5*1000);
+        sched.schedule(new MyTimer(timSem, data), 0, 10);
 
     }
 }
