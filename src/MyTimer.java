@@ -2,17 +2,15 @@ import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 public class MyTimer extends TimerTask {
-    Semaphore timSem;
-    FinishData data;
+    private Semaphore timSem;
 
-    public MyTimer(Semaphore timSem, FinishData data){
-        this.data = data;
+    MyTimer(Semaphore timSem){
         this.timSem = timSem;
     }
 
     @Override
     public void run() {
-        data.timerCount++;
+        FinishData.timerCount++;
         timSem.release();
     }
 }

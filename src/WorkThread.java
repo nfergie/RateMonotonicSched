@@ -2,15 +2,13 @@ import java.util.concurrent.Semaphore;
 import java.util.Arrays;
 
 public class WorkThread extends Thread {
-    FinishData data;
-    int times;
-    int type;
-    Semaphore fin;
-    Semaphore sem;
-    int [][] matrix = new int [10][10];
+    private int times;
+    private int type;
+    private Semaphore fin;
+    private Semaphore sem;
+    private int [][] matrix = new int [10][10];
 
-    public WorkThread(Semaphore sem, Semaphore fin, FinishData data, int times, int type) {
-        this.data = data;
+    WorkThread(Semaphore sem, Semaphore fin, int times, int type) {
         this.type = type;
         this.fin = fin;
         this.times = times;
@@ -24,21 +22,22 @@ public class WorkThread extends Thread {
     @Override
     public void run() {
         try{
+            //noinspection InfiniteLoopStatement
             while(true){
                 sem.acquire();
                 fin.acquire();
                 switch (type){
                     case 1:
-                        data.isFinish1 = false;
+                        FinishData.isFinish1 = false;
                         break;
                     case 2:
-                        data.isFinish2 = false;
+                        FinishData.isFinish2 = false;
                         break;
                     case 3:
-                        data.isFinish3 = false;
+                        FinishData.isFinish3 = false;
                         break;
                     case 4:
-                        data.isFinish4 = false;
+                        FinishData.isFinish4 = false;
                         break;
                 }
                 fin.release();
@@ -51,20 +50,20 @@ public class WorkThread extends Thread {
                 fin.acquire();
                 switch (type){
                     case 1:
-                        data.isFinish1 = true;
-                        data.count1++;
+                        FinishData.isFinish1 = true;
+                        FinishData.count1++;
                         break;
                     case 2:
-                        data.isFinish2 = true;
-                        data.count2++;
+                        FinishData.isFinish2 = true;
+                        FinishData.count2++;
                         break;
                     case 3:
-                        data.isFinish3 = true;
-                        data.count3++;
+                        FinishData.isFinish3 = true;
+                        FinishData.count3++;
                         break;
                     case 4:
-                        data.isFinish4 = true;
-                        data.count4++;
+                        FinishData.isFinish4 = true;
+                        FinishData.count4++;
                         break;
                 }
                 fin.release();
@@ -77,7 +76,7 @@ public class WorkThread extends Thread {
 
     }
 
-    static void doWork(int[][] matrix){
+    private static void doWork(int[][] matrix){
         int result = matrix[0][0];
         for(int j =0; j < 5; j++){
             for(int i =0; i< 10; i++ ){

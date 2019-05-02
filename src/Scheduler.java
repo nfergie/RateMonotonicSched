@@ -1,16 +1,13 @@
-import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 
 public class Scheduler extends Thread {
-    Semaphore fin;
-    Semaphore timSem;
-    Semaphore [] semArray;
-    FinishData data;
+    private Semaphore fin;
+    private Semaphore timSem;
+    private Semaphore [] semArray;
 
-    public Scheduler(Semaphore timSem, Semaphore fin, Semaphore[] semArray, FinishData data){
+    Scheduler(Semaphore timSem, Semaphore fin, Semaphore[] semArray){
         this.fin = fin;
         this.semArray = semArray;
-        this.data = data;
         this.timSem = timSem;
     }
 
@@ -20,24 +17,24 @@ public class Scheduler extends Thread {
 
             while(true){
                 timSem.acquire();
-                int count = data.timerCount;
+                int count = FinishData.timerCount;
                 if(count == 160){
-                    System.out.println("T1: " + data.count1);
-                    System.out.println("T2: " + data.count2);
-                    System.out.println("T3: " + data.count3);
-                    System.out.println("T4: " + data.count4);
-                    System.out.println("t1 over " + data.over1);
-                    System.out.println("t2 over " + data.over2);
-                    System.out.println("t3 over " + data.over3);
-                    System.out.println("t4 over " + data.over4);
+                    System.out.println("T1: " + FinishData.count1);
+                    System.out.println("T2: " + FinishData.count2);
+                    System.out.println("T3: " + FinishData.count3);
+                    System.out.println("T4: " + FinishData.count4);
+                    System.out.println("t1 over " + FinishData.over1);
+                    System.out.println("t2 over " + FinishData.over2);
+                    System.out.println("t3 over " + FinishData.over3);
+                    System.out.println("t4 over " + FinishData.over4);
                     System.exit(0);
                 }
                 if(semArray[0].availablePermits() == 0){
                     semArray[0].release();
                 }
                 fin.acquire();
-                if(data.isFinish1 == false){
-                    data.over1++;
+                if(!FinishData.isFinish1){
+                    FinishData.over1++;
                 }
                 fin.release();
                 if(count % 2 == 0){
@@ -45,8 +42,8 @@ public class Scheduler extends Thread {
                         semArray[1].release();
                     }
                     fin.acquire();
-                    if(data.isFinish2 == false){
-                        data.over2++;
+                    if(!FinishData.isFinish2){
+                        FinishData.over2++;
                     }
                     fin.release();
                 }
@@ -55,8 +52,8 @@ public class Scheduler extends Thread {
                         semArray[2].release();
                     }
                     fin.acquire();
-                    if(data.isFinish3 == false){
-                        data.over3++;
+                    if(!FinishData.isFinish3){
+                        FinishData.over3++;
                     }
                     fin.release();
                 }
@@ -65,8 +62,8 @@ public class Scheduler extends Thread {
                         semArray[3].release();
                     }
                     fin.acquire();
-                    if(data.isFinish4 == false){
-                        data.over4++;
+                    if(!FinishData.isFinish4){
+                        FinishData.over4++;
                     }
                     fin.release();
                 }
