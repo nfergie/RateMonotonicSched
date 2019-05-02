@@ -24,7 +24,7 @@ public class RateMonotonicSched {
             e.printStackTrace();
         }
 
-        WorkThread t1 = new WorkThread(semArray[0], fin, data, 1, 1);
+        WorkThread t1 = new WorkThread(semArray[0], fin, data, 2000, 1);
         WorkThread t2 = new WorkThread(semArray[1], fin, data, 2, 2);
         WorkThread t3 = new WorkThread(semArray[2], fin, data, 4, 3);
         WorkThread t4 = new WorkThread(semArray[3], fin, data, 16, 4);
@@ -46,9 +46,10 @@ public class RateMonotonicSched {
 
 
         Timer sched = new Timer();
-        Scheduler s = new Scheduler(timSem, semArray, data);
+        Scheduler s = new Scheduler(timSem, fin, semArray, data);
         s.start();
-        sched.schedule(new MyTimer(timSem, data), 0, 10);
+        MyTimer t = new MyTimer(timSem, data);
+        sched.schedule(t, 0, 1);
 
     }
 }

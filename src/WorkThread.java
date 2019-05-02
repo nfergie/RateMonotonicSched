@@ -26,32 +26,48 @@ public class WorkThread extends Thread {
         try{
             while(true){
                 sem.acquire();
+                fin.acquire();
+                switch (type){
+                    case 1:
+                        data.isFinish1 = false;
+                        break;
+                    case 2:
+                        data.isFinish2 = false;
+                        break;
+                    case 3:
+                        data.isFinish3 = false;
+                        break;
+                    case 4:
+                        data.isFinish4 = false;
+                        break;
+                }
+                fin.release();
                 int count =0;
                 while(count < times){
                     doWork(matrix);
                     count++;
                 }
-//
-//                fin.acquire();
-//                switch (type){
-//                    case 1:
-//                        data.isFinish1 = true;
-//                        data.count1++;
-//                        break;
-//                    case 2:
-//                        data.isFinish2 = true;
-//                        data.count2++;
-//                        break;
-//                    case 3:
-//                        data.isFinish3 = true;
-//                        data.count3++;
-//                        break;
-//                    case 4:
-//                        data.isFinish4 = true;
-//                        data.count4++;
-//                        break;
-//                }
-//                fin.release();
+
+                fin.acquire();
+                switch (type){
+                    case 1:
+                        data.isFinish1 = true;
+                        data.count1++;
+                        break;
+                    case 2:
+                        data.isFinish2 = true;
+                        data.count2++;
+                        break;
+                    case 3:
+                        data.isFinish3 = true;
+                        data.count3++;
+                        break;
+                    case 4:
+                        data.isFinish4 = true;
+                        data.count4++;
+                        break;
+                }
+                fin.release();
             }
 
 
