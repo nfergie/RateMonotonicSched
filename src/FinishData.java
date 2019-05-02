@@ -9,10 +9,10 @@ public class FinishData {
     public static int count3 = 0;
     public static int count4 = 0;
 
-    public static int over1 = -1;
-    public static int over2 = -1;
-    public static int over3 = -1;
-    public static int over4 = -1;
+    public static int over1 = 0;
+    public static int over2 = 0;
+    public static int over3 = 0;
+    public static int over4 = 0;
 
     public static int timerCount = -1;
 }
